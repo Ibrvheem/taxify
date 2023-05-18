@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/taxify/static/css/main.6e43eed0.css",
+    "main.js": "/taxify/static/js/main.fdbb7258.js",
+    "index.html": "/taxify/index.html",
+    "main.6e43eed0.css.map": "/taxify/static/css/main.6e43eed0.css.map",
+    "main.fdbb7258.js.map": "/taxify/static/js/main.fdbb7258.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6e43eed0.css",
+    "static/js/main.fdbb7258.js"
+  ]
+}
