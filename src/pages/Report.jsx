@@ -45,22 +45,6 @@ function Report() {
       <Container>
         <Grid container>
           <Grid item md={6}>
-            <Grid container>
-              <Grid item md={6}>
-                <Card
-                  style={{ width: "90%", height: "5rem", marginBottom: "2rem" }}
-                ></Card>
-                <Card style={{ width: "90%", height: "20rem" }}></Card>
-              </Grid>
-              <Grid item md={6}>
-                <Card
-                  style={{ width: "90%", height: "5rem", marginBottom: "2rem" }}
-                ></Card>
-                <Card style={{ width: "90%", height: "20rem" }}></Card>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item md={6}>
             <Typography variant="h3" color="primary">
               Previous Allocation
             </Typography>
