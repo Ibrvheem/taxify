@@ -28,22 +28,18 @@ function Payment() {
     // let gamelink = `https://binumarcodes.github.io/emojiswap/Emoji%20Swap.html?gameid=${random}`;
 
     // localStorage.setItem("gameid", gamelink);
-    fetch("https://emojiswap.itcentral.ng/sms", {
+    fetch("https://4ea2-197-211-63-82.eu.ngrok.io/pay", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ tax_id, name, phoneno }),
+      //   mode: "no-cors",
+
+      body: JSON.stringify({ phoneno, name, tax_id }),
     })
       .then((response) => {
         if (response.ok) {
           alert("Message sent successfully");
-          //   window.location.href = `/Emoji Swap.html`;
-          //   console.log("SMS sent successfully!");
-          //   localStorage.setItem("Player1", sender);
-          //   localStorage.setItem("Player2", person);
-          //   localStorage.setItem("gameid", gamelink);
-          //   localStorage.setItem("Player1", sender);
         } else {
           throw new Error("SMS send failed.");
         }
@@ -67,7 +63,7 @@ function Payment() {
           />
           <TextField
             variant="outlined"
-            type="number"
+            // type="number"
             label="Tax Identification Number"
             onChange={(e) => {
               setTin(e.target.value);
@@ -80,7 +76,12 @@ function Payment() {
               setName(e.target.value);
             }}
           />
-          <Button variant="contained" color="primary" className={classes.btn}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.btn}
+            onClick={handlePayment}
+          >
             Submit
           </Button>
         </form>

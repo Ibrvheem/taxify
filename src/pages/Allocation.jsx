@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   FormControl,
   FormControlLabel,
@@ -15,10 +16,11 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import Card from "@material-ui/core/Card/Card";
-import React from "react";
+import React, { useState } from "react";
 import Pie from "../components/Pie";
 import Histogram from "../components/Line";
 import { ArrowDownward, ArrowDropDown, TrendingUp } from "@material-ui/icons";
+import { states } from "../sectors";
 const useStyles = makeStyles((theme) => {
   return {
     allocation: {
@@ -42,6 +44,8 @@ const useStyles = makeStyles((theme) => {
 
 function Allocation() {
   const classes = useStyles();
+  const [projects, setProjects] = useState([]);
+  const [object, setObject] = useState();
   const pie = {
     labels: ["Blue", "Red", "Green", "Lavender", "Teal"],
     values: [20, 20, 30, 30],
@@ -50,6 +54,18 @@ function Allocation() {
     labels: ["Jan", "Feb", "Mar", "Apr", "May"],
     values: [10, 40, 10, 30, 25],
   };
+  const handleAllocationChange = (event) => {
+    const selectedState = event.target.value;
+    const selectedObject = states.find(
+      (state) => state.alias === selectedState
+    );
+    if (selectedObject) {
+      const selectedLgas = selectedObject.projects || [];
+      setProjects(selectedLgas);
+      setObject(selectedObject);
+    }
+  };
+  console.log(object.sectors);
 
   return (
     <div className={classes.allocation}>
@@ -72,51 +88,23 @@ function Allocation() {
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="Construction"
                   name="radio-buttons-group"
+                  onChange={handleAllocationChange}
                 >
+                  {states.map((data) => {
+                    return (
+                      <>
+                        <FormControlLabel
+                          value={data.alias}
+                          control={<Radio />}
+                          label={data.sectors}
+                        />
+                      </>
+                    );
+                  })}
                   <FormControlLabel
                     value="construction"
                     control={<Radio />}
                     label="Construction"
-                  />
-                  <FormControlLabel
-                    value="education"
-                    control={<Radio />}
-                    label="Education"
-                  />
-                  <FormControlLabel
-                    value="agriculture"
-                    control={<Radio />}
-                    label="Agriculture"
-                  />
-                  <FormControlLabel
-                    value="MiningExtraction"
-                    control={<Radio />}
-                    label="Mining & Extraction "
-                  />
-                  <FormControlLabel
-                    value="manufacturing"
-                    control={<Radio />}
-                    label="Manufacturing"
-                  />
-                  <FormControlLabel
-                    value="services"
-                    control={<Radio />}
-                    label="Banking and Health"
-                  />
-                  <FormControlLabel
-                    value="energyUtilities"
-                    control={<Radio />}
-                    label="Energy & Utilities "
-                  />
-                  <FormControlLabel
-                    value="financies"
-                    control={<Radio />}
-                    label="Financial Services"
-                  />
-                  <FormControlLabel
-                    value="infoTech"
-                    control={<Radio />}
-                    label="Information Technology and Communication"
                   />
                 </RadioGroup>
               </FormControl>
@@ -169,16 +157,21 @@ function Allocation() {
             </Card>
           </Grid>{" "}
           <Grid item md={6}>
-            <Card className={classes.card} elevation={8}>
+            <Card
+              className={classes.card}
+              style={{ height: "auto" }}
+              elevation={8}
+            >
               <Typography variant="h2" color="primary">
-                Construction
+                {object.sectors}
               </Typography>
+
               <Grid container>
                 <Grid item md={6}>
                   <Card
                     style={{
                       width: "90%",
-                      height: "10rem",
+                      height: "auto",
                       padding: ".5rem",
                       display: "flex",
                       //   alignItems: "center",
@@ -207,7 +200,7 @@ function Allocation() {
                       />
                     </Typography>
                     <Typography variant="h4" color="primary">
-                      NGN 105,000,000
+                      NGN {object.current_allocation}
                     </Typography>
                   </Card>
                 </Grid>
@@ -239,7 +232,7 @@ function Allocation() {
                       30 Days
                     </Typography>
                     <Typography variant="h4" color="primary">
-                      NGN 400,000,000
+                      NGN {object.previous_allocation}
                     </Typography>
                   </Card>{" "}
                 </Grid>
@@ -248,142 +241,66 @@ function Allocation() {
                     <Typography
                       variant="h5"
                       color="primary"
-                      style={{ paddingTop: ".6rem", fontWeight: "bold" }}
+                      style={{
+                        paddingTop: ".6rem",
+                        fontWeight: "bold",
+                      }}
                     >
                       Select Sector
                     </Typography>
                   </Grid>
-                  <Grid item md={6}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem",
-                      }}
-                    >
-                      <Typography variant="h5" color="primary">
-                        {" "}
-                        Residential Construction
-                      </Typography>
-                      <FormControl variant="outlined" l>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          //   value={age}
-                          label="%"
-                          //   onChange={handleChange}
-                          InputProps={{
-                            style: {
-                              backgroundColor: "red",
-                            },
+                  {object.projects.map((project) => {
+                    return (
+                      <Grid item md={6}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            // justifyContent: "space-between",
+                            gap: "1rem",
+                            marginBottom: "2rem",
                           }}
                         >
-                          <MenuItem value={10}>10%</MenuItem>
-                          <MenuItem value={20}>20%</MenuItem>
-                          <MenuItem value={30}>30%</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </Grid>
-                  <Grid item md={6}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem",
-                        marginBottom: "1rem",
-                      }}
-                    >
-                      <Typography variant="h5" color="primary">
-                        {" "}
-                        Residential Construction
-                      </Typography>
-                      <FormControl variant="outlined" l>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          //   value={age}
-                          label="%"
-                          //   onChange={handleChange}
-                          InputProps={{
-                            style: {
-                              backgroundColor: "red",
-                            },
-                          }}
-                        >
-                          <MenuItem value={10}>10%</MenuItem>
-                          <MenuItem value={20}>20%</MenuItem>
-                          <MenuItem value={30}>30%</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </Grid>
-                  <Grid item md={6}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem",
-                        marginBottom: "1rem",
-                      }}
-                    >
-                      <Typography variant="h5" color="primary">
-                        {" "}
-                        Residential Construction
-                      </Typography>
-                      <FormControl variant="outlined" l>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          //   value={age}
-                          label="%"
-                          //   onChange={handleChange}
-                          InputProps={{
-                            style: {
-                              backgroundColor: "red",
-                            },
-                          }}
-                        >
-                          <MenuItem value={10}>10%</MenuItem>
-                          <MenuItem value={20}>20%</MenuItem>
-                          <MenuItem value={30}>30%</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </Grid>
-                  <Grid item md={6}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem",
-                        marginBottom: "1rem",
-                      }}
-                    >
-                      <Typography variant="h5" color="primary">
-                        {" "}
-                        Residential Construction
-                      </Typography>
-                      <FormControl variant="outlined" l>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          //   value={age}
-                          label="%"
-                          //   onChange={handleChange}
-                          InputProps={{
-                            style: {
-                              backgroundColor: "red",
-                            },
-                          }}
-                        >
-                          <MenuItem value={10}>10%</MenuItem>
-                          <MenuItem value={20}>20%</MenuItem>
-                          <MenuItem value={30}>30%</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </Grid>
+                          <Typography variant="h5" color="primary">
+                            {" "}
+                            {project}
+                          </Typography>
+                          <FormControl variant="outlined" l>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              //   value={age}
+                              label="%"
+                              //   onChange={handleChange}
+                              InputProps={{
+                                style: {
+                                  backgroundColor: "red",
+                                },
+                              }}
+                            >
+                              <MenuItem value={10}>10%</MenuItem>
+                              <MenuItem value={20}>20%</MenuItem>
+                              <MenuItem value={30}>30%</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                      </Grid>
+                    );
+                  })}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      alert("submitted succesfully");
+                    }}
+                    style={{
+                      padding: "1rem 2rem",
+                      color: "white",
+                      fontSize: "1.2rem",
+                    }}
+                  >
+                    SUBMIT
+                  </Button>
                 </Grid>
               </Grid>
             </Card>
